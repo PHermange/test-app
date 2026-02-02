@@ -4,13 +4,25 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import prisma from "@/lib/prisma";
 
 export default async function HomePage() {
-    console.log(process.env.DATABASE_URL);
-    //const pokemons = await prisma.pokemon.findMany();
-    const pokemons: { id: number; name: string }[] = [];
-    
+    const pokemons = await prisma.pokemon.findMany();
     return (
         <div>
-           db url :  <code>{process.env.DATABASE_URL}</code>
+            <Table>
+                <TableHeader>
+                    <TableRow>
+                        <TableHead>#id</TableHead>
+                        <TableHead>name</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {pokemons.map((pokemon) => (
+                        <TableRow key={pokemon.id}>
+                            <TableCell>{pokemon.id}</TableCell>
+                            <TableCell>{pokemon.name}</TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
         </div>
     );
 }
