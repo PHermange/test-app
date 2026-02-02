@@ -5,9 +5,9 @@ import prisma from "@/lib/prisma";
 
 export default async function HomePage() {
     const pokemons = await prisma.pokemon.findMany();
+    console.log(process.env.DATABASE_URL);
     return (
         <div>
-            {process.env.DATABASE_URL}
             <Table>
                 <TableHeader>
                     <TableRow>
