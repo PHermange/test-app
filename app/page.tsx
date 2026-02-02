@@ -7,6 +7,7 @@ export default async function HomePage() {
     const pokemons = await prisma.pokemon.findMany();
     return (
         <div>
+            {process.env.DATABASE_URL}
             <Table>
                 <TableHeader>
                     <TableRow>
