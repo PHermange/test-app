@@ -1,0 +1,139 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Animation {
+  id          String  @id @default(uuid())
+  name        String
+  frameWidth  Int
+  frameHeight Int
+  durations   Int[]
+  rushFrame   Int?
+  hitFrame    Int?
+  returnFrame Int?
+  pokemonId   String
+  copyOf      String?
+  pokemon     Pokemon @relation(fields: [pokemonId], references: [id])
+
+  @@unique([pokemonId, name])
+}
+
+model Hitbox {
+  id        String  @id @default(uuid())
+  width     Int
+  height    Int
+  pokemonId String  @unique
+  pokemon   Pokemon @relation(fields: [pokemonId], references: [id])
+}
+
+model Pokemon {
+  id         String      @id
+  name       String
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  animations Animation[]
+  hitbox     Hitbox?
+  variant    Variant?
+  types      Type[]
+  stats      Stats?
+}
+
+model Type {
+  id   String @id
+  name String @unique
+  pokemons Pokemon[]
+}
+
+model Stats {
+  id        String  @id @default(uuid())
+  hp        Int
+  attack    Int
+  defense   Int
+  specialAttack Int
+  specialDefense Int
+  speed     Int
+  pokemonId String  @unique
+  pokemon   Pokemon @relation(fields: [pokemonId], references: [id])
+}
+
+model AuthorizedEmail {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  role      String
+}
+
+model Variant {
+  id        String  @id @default(uuid())
+  normal    String
+  shiny     String
+  pokemonId String  @unique
+  pokemon   Pokemon @relation(fields: [pokemonId], references: [id])
+}
+
+model Account {
+  id        String   @id @default(cuid())
+
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+
+  providerId String
+  accountId  String
+
+  accessToken             String?
+  refreshToken            String?
+  idToken                 String?
+  accessTokenExpiresAt    DateTime?
+  expiresAt               Int?
+  tokenType               String?
+  scope                   String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([providerId, accountId])
+  @@index([userId])
+}
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  emailVerified Boolean  @default(false)
+
+  name          String?
+  image         String?
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  sessions      Session[]
+  accounts      Account[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  role      String
+}
+
+model Verification {
+  id         String   @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+}
