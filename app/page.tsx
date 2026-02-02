@@ -10,22 +10,7 @@ export default async function HomePage() {
     
     return (
         <div>
-            <Table>
-                <TableHeader>
-                    <TableRow>
-                        <TableHead>#id</TableHead>
-                        <TableHead>name</TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {pokemons.map((pokemon) => (
-                        <TableRow key={pokemon.id}>
-                            <TableCell>{pokemon.id}</TableCell>
-                            <TableCell>{pokemon.name}</TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
+           db url :  <code>{process.env.DATABASE_URL}</code>
         </div>
     );
 }
