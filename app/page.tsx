@@ -4,8 +4,9 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import prisma from "@/lib/prisma";
 
 export default async function HomePage() {
-    const pokemons = await prisma.pokemon.findMany();
     console.log(process.env.DATABASE_URL);
+    const pokemons = await prisma.pokemon.findMany();
+    
     return (
         <div>
             <Table>
