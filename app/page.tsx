@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import prisma from "@/lib/prisma";
 
