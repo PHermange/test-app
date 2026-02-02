@@ -5,7 +5,8 @@ import prisma from "@/lib/prisma";
 
 export default async function HomePage() {
     console.log(process.env.DATABASE_URL);
-    const pokemons = await prisma.pokemon.findMany();
+    //const pokemons = await prisma.pokemon.findMany();
+    const pokemons: { id: number; name: string }[] = [];
     
     return (
         <div>
